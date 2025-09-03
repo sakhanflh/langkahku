@@ -1,0 +1,47 @@
+@import "tailwindcss";
+
+@theme{
+  --font-montserrat: "Montserrat", sans-serif;
+  --font-jost: "Jost", sans-serif;
+
+
+  --color-black-50: #f6f6f6;
+  --color-black-100: #e7e7e7;
+  --color-black-200: #d1d1d1;
+  --color-black-300: #b0b0b0;
+  --color-black-400: #888888;
+  --color-black-500: #6d6d6d;
+  --color-black-600: #5d5d5d;
+  --color-black-700: #4f4f4f;
+  --color-black-800: #454545;
+  --color-black-900: #3d3d3d;
+  --color-black-950: #000000;
+  
+  --color-electric-violet-50: #fbf5ff;
+--color-electric-violet-100: #f5e7ff;
+--color-electric-violet-200: #edd3ff;
+--color-electric-violet-300: #dfb1ff;
+--color-electric-violet-400: #cc80ff;
+--color-electric-violet-500: #b84ffd;
+--color-electric-violet-600: #a020f0;
+--color-electric-violet-700: #8f1cd4;
+--color-electric-violet-800: #781cad;
+--color-electric-violet-900: #62188b;
+--color-electric-violet-950: #440467;
+
+--color-royal-blue-50: #f1f4fd;
+--color-royal-blue-100: #dfe7fa;
+--color-royal-blue-200: #c5d5f8;
+--color-royal-blue-300: #9ebbf2;
+--color-royal-blue-400: #7097ea;
+--color-royal-blue-500: #4169e1;
+--color-royal-blue-600: #3957d7;
+--color-royal-blue-700: #3044c5;
+--color-royal-blue-800: #2d39a0;
+--color-royal-blue-900: #29347f;
+--color-royal-blue-950: #1d224e;
+
+
+
+
+}
