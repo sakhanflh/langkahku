@@ -3,11 +3,11 @@ import { MainLayout } from "./layouts/MainLayout";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import LoginPage from "./pages/loginPage";
 import RegisterPage from "./pages/registerPage";
-import DashboardPage from "./pages/DashboardPage";
 import KeuanganPage from "./pages/keuanganPage";
 import GoalsAndTodoPage from "./pages/GoalsAndTodoPage";
 import MoodPage from "./pages/moodPage";
 import OjekTrackerPage from "./pages/ojekTrackerPage";
+import DashboardPage from "./pages/DashboardPage";
 
 
 function App() {
