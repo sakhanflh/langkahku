@@ -44,7 +44,7 @@ export default function RegisterPage() {
                 // Redirect ke login setelah 2 detik
                 setTimeout(() => {
                     navigate('/login');
-                }, 2000);
+                }, 1000);
             }
         } catch (error) {
             console.error('Register error:', error);
