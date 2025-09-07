@@ -1,14 +1,14 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { MainLayout } from "./layouts/MainLayout";
 import { ProtectedRoute } from "./components/ProtectedRoute";
-
-import DashboardPage from "./pages/DashboardPage";
-import KeuanganPage from "./pages/KeuanganPage";
-import GoalsAndTodoPage from "./pages/GoalsAndTodoPage";
-import MoodPage from "./pages/MoodPage";
-import OjekTrackerPage from "./pages/OjekTrackerPage";
 import LoginPage from "./pages/loginPage";
 import RegisterPage from "./pages/registerPage";
+import DashboardPage from "./pages/DashboardPage";
+import KeuanganPage from "./pages/keuanganPage";
+import GoalsAndTodoPage from "./pages/GoalsAndTodoPage";
+import MoodPage from "./pages/moodPage";
+import OjekTrackerPage from "./pages/ojekTrackerPage";
+
 
 function App() {
   return (
