@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
-import { MainLayout } from '../layouts/MainLayout';
 
 export default function MoodPage() {
     // State untuk form input
@@ -66,7 +65,6 @@ export default function MoodPage() {
     const COLORS = ['#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#0EA5E9'];
 
     return (
-        <MainLayout>
             <div className="min-h-screen bg-gray-800 text-gray-100 p-6">
                 {/* Header Section */}
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
@@ -232,6 +230,5 @@ export default function MoodPage() {
                     </div>
                 </div>
             </div>
-        </MainLayout>
     );
 }

@@ -1,7 +1,16 @@
-import { FiDollarSign, FiHome, FiNavigation, FiSmile, FiTarget } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { FiDollarSign, FiHome, FiLogOut, FiNavigation, FiSmile, FiTarget } from "react-icons/fi";
+import { IoIosLogOut } from "react-icons/io";
+import { Link, useNavigate } from "react-router-dom";
+import { logout } from "../services/authService";
 
 export function Sidebar({ isOpen }) {
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        logout();
+        navigate("/login")
+    }
+
     const menuItems = [
         { name: 'Dashboard', icon: <FiHome size={20} />, path: '/' },
         { name: 'Keuangan', icon: <FiDollarSign size={20} />, path: '/keuangan' },
@@ -27,7 +36,7 @@ export function Sidebar({ isOpen }) {
                         {menuItems.map((item, index) => (
                             <li key={index} className="px-4 py-2">
                                 <Link
-                                to={item.path}
+                                    to={item.path}
                                     className="flex items-center p-2 rounded-lg hover:bg-blue-500 hover:bg-opacity-20 transition-colors duration-200"
                                 >
                                     <span className="mr-3">{item.icon}</span>
@@ -37,6 +46,12 @@ export function Sidebar({ isOpen }) {
                         ))}
                     </ul>
                 </nav>
+                <div className="px-4 py-2  mt-32">
+                    <button onClick={handleLogout} className="flex w-full items-center p-2 rounded-lg text-red-500 hover:bg-red-500 hover:text-white hover:bg-opacity-20 transition-colors duration-200">
+                        <FiLogOut size={20} className="mr-3" />
+                        Logout
+                    </button>
+                </div>
             </div>
         </aside>
     )

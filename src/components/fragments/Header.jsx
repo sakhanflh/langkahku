@@ -1,5 +1,6 @@
 import { IoIosNotificationsOutline } from "react-icons/io"
 import { HiMenuAlt1 } from "react-icons/hi"
+import Notification from "./Notification"
 
 export function Header({ toggleSidebar }) {
     return (
@@ -16,7 +17,7 @@ export function Header({ toggleSidebar }) {
             </div>
 
             {/* Notifikasi */}
-            <IoIosNotificationsOutline className="text-2xl cursor-pointer" />
+            <Notification hasNew={true}/>
         </header>
     )
 }
