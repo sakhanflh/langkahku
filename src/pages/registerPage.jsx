@@ -40,11 +40,7 @@ export default function RegisterPage() {
                     email: '',
                     password: ''
                 });
-
-                // Redirect ke login setelah 2 detik
-                setTimeout(() => {
-                    navigate('/login');
-                }, 1000);
+                navigate('/login');
             }
         } catch (error) {
             console.error('Register error:', error);
@@ -123,8 +119,8 @@ export default function RegisterPage() {
 
                 {message.text && (
                     <div className={`mt-4 p-3 rounded-lg text-sm ${message.type === 'success'
-                            ? 'bg-green-500/20 text-green-300'
-                            : 'bg-red-500/20 text-red-300'
+                        ? 'bg-green-500/20 text-green-300'
+                        : 'bg-red-500/20 text-red-300'
                         }`}>
                         {message.text}
                     </div>

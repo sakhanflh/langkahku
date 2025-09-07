@@ -1,5 +1,25 @@
 @import "tailwindcss";
 
+/* Scrollbar Kecil */
+::-webkit-scrollbar {
+  width: 1px; /* lebar scrollbar vertikal */
+  height: 1px; /* tinggi scrollbar horizontal */
+}
+
+::-webkit-scrollbar-track {
+  background: #4169e1; /* warna track */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888; /* warna tombol scroll */
+  border-radius: 9999px; /* biar bulat */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555; /* warna pas hover */
+}
+
+
 @theme{
   --font-montserrat: "Montserrat", sans-serif;
   --font-jost: "Jost", sans-serif;
