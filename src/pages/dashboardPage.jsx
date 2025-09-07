@@ -13,7 +13,7 @@ import {
     Legend
 } from 'recharts';
 
-export default function DashboardPage() {
+export function DashboardPage() {
     // Data untuk ringkasan cepat
     const [summaryData] = useState([
         { id: 1, title: 'Pendapatan Hari Ini', value: 'Rp 350.000', icon: '💰', color: 'bg-green-500' },

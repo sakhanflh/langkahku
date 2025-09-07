@@ -7,7 +7,7 @@ import KeuanganPage from "./pages/keuanganPage";
 import GoalsAndTodoPage from "./pages/GoalsAndTodoPage";
 import MoodPage from "./pages/moodPage";
 import OjekTrackerPage from "./pages/ojekTrackerPage";
-import DashboardPage from "./pages/DashboardPage";
+import { DashboardPage } from "./pages/DashboardPage";
 
 
 function App() {
