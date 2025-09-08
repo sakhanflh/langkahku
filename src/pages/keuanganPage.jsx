@@ -63,7 +63,7 @@ export default function KeuanganPage() {
             savings.reduce((a, s) => a + s.target, 0)) * 100
     )
     return (
-        <div className="min-h-screen bg-gray-800 text-gray-100 p-4 md:p-6">
+        <div className="min-h-screen bg-gray-800 text-gray-100 md:p-6">
             <HeaderSection
                 selectedMonth={selectedMonth}
                 setSelectedMonth={setSelectedMonth}

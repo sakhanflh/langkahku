@@ -54,7 +54,7 @@ export function DashboardPage() {
     const COLORS = ['#10B981', '#3B82F6', '#F59E0B', '#EF4444'];
 
     return (
-        <div className="min-h-screen bg-gray-800 p-4 md:p-6">
+        <div className="min-h-screen bg-gray-800 md:p-6">
             {/* Header */}
             <header className="mb-6">
                 <h1 className="text-2xl font-bold text-white">Dashboard</h1>
