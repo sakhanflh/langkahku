@@ -1,0 +1,35 @@
+{
+    "id": "/",
+    "name": "Langkahku",
+    "short_name": "Langkahku",
+    "description": "Langkahku PWA",
+    "start_url": "/",
+    "display": "standalone",
+    "theme_color": "#ffffff",
+    "background_color": "#ffffff",
+    "icons": [
+        {
+            "src": "/img/langkahku-logo-192x192.jpg",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/img/langkahku-logo-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "/img/safeimagekit-mobile.png",
+            "sizes": "720x1280",
+            "type": "image/png"
+        },
+        {
+            "src": "/img/macbook.png",
+            "sizes": "704x440",
+            "type": "image/png",
+            "form_factor": "wide"
+        }
+    ]
+}
