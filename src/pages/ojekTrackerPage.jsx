@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import HeaderSection from '../layouts/Ojek/HeaderSection';
 import ActivityForm from '../layouts/Ojek/ActivityForm';
 import LineChartComponent from '../layouts/Ojek/LineChartComponent';
-import BarChartComponent from '../layouts/Ojek/BarChartComponent';
 import ActivityHistory from '../layouts/Ojek/ActivityHistory';
 import { calculateNetIncome } from '../components/utils/formatters';
 import { getTracker, hapusTracker, tambahTracker, updateTracker } from '../services/trackerService';
@@ -114,8 +113,7 @@ export default function OjekTrackerPage() {
                     ) : (
                         <>
                             <LineChartComponent chartData={chartData} />
-                            <BarChartComponent chartData={chartData} />
-                            <ActivityHistory activities={activities} />
+                            <ActivityHistory activities={activities} onDeleteActivity={handleDeleteActivity} />
                         </>
                     )}
                 </div>

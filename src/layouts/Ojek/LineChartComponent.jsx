@@ -12,16 +12,28 @@ export default function LineChartComponent({ chartData }) {
                         margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
                     >
                         <CartesianGrid strokeDasharray="3 3" stroke="#4B5563" />
-                        <XAxis dataKey="date" stroke="#9CA3AF" />
+                        <XAxis dataKey="tanggal" stroke="#9CA3AF" />
                         <YAxis stroke="#9CA3AF" />
                         <Tooltip
-                            contentStyle={{ backgroundColor: '#1F2937', borderColor: '#374151', color: '#F3F4F6' }}
-                            formatter={(value, name) => {
-                                if (name === 'income' || name === 'expense' || name === 'net') {
-                                    return [formatCurrency(value), name === 'income' ? 'Pendapatan' : name === 'expense' ? 'Pengeluaran' : 'Bersih'];
+                            contentStyle={{
+                                backgroundColor: '#1F2937',
+                                borderColor: '#374151',
+                                color: '#F3F4F6',
+                              }}
+                              formatter={(value, name) => {
+                                switch (name) {
+                                  case 'km':
+                                    return [value, 'KM'];
+                                  case 'order':
+                                    return [value, 'Order'];
+                                  case 'pendapatan':
+                                    return [formatCurrency(value), 'Pendapatan'];
+                                  case 'net':
+                                    return [formatCurrency(value), 'Pendapatan Bersih'];
+                                  default:
+                                    return [value, name];
                                 }
-                                return [value, name === 'km' ? 'KM' : 'Order'];
-                            }}
+                              }}
                         />
                         <Legend />
                         <Line
@@ -34,14 +46,14 @@ export default function LineChartComponent({ chartData }) {
                         />
                         <Line
                             type="monotone"
-                            dataKey="orders"
+                            dataKey="order"
                             stroke="#10B981"
                             strokeWidth={2}
                             name="Order"
                         />
                         <Line
                             type="monotone"
-                            dataKey="income"
+                            dataKey="pendapatan"
                             stroke="#F59E0B"
                             strokeWidth={2}
                             name="Pendapatan"
