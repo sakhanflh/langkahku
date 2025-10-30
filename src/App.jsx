@@ -4,8 +4,6 @@ import { ProtectedRoute } from "./components/ProtectedRoute";
 import LoginPage from "./pages/loginPage";
 import RegisterPage from "./pages/registerPage";
 import KeuanganPage from "./pages/keuanganPage";
-import GoalsAndTodoPage from "./pages/GoalsAndTodoPage";
-import MoodPage from "./pages/moodPage";
 import OjekTrackerPage from "./pages/ojekTrackerPage";
 import { DashboardPage } from "./pages/DashboardPage";
 
@@ -35,26 +33,6 @@ function App() {
             <ProtectedRoute>
               <MainLayout>
                 <KeuanganPage />
-              </MainLayout>
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/todo"
-          element={
-            <ProtectedRoute>
-              <MainLayout>
-                <GoalsAndTodoPage />
-              </MainLayout>
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/mood"
-          element={
-            <ProtectedRoute>
-              <MainLayout>
-                <MoodPage />
               </MainLayout>
             </ProtectedRoute>
           }

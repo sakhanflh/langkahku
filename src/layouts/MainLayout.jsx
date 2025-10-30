@@ -7,9 +7,10 @@ export function MainLayout({ children }) {
     const [isOpen, setIsOpen] = useState(false)
 
     const toggleSidebar = () => setIsOpen(!isOpen)
+
     return (
         <div className="flex h-screen text-white">
-            <Sidebar isOpen={isOpen} />
+            <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
             <div className={`flex-1 transition-all duration-300 ${isOpen ? "ml-72" : "ml-0"}`}>
                 <Header toggleSidebar={toggleSidebar} />
                 <main className="p-6">{children}</main>
