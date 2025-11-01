@@ -119,16 +119,17 @@ export default function KeuanganPage() {
                 totalSavings={totalSavings}
                 balance={balance}
             />
-
-            {loading ? (
-                <p className="text-center text-gray-400">Memuat data transaksi...</p>
-            ) : (
-                <TransactionList
-                    transactions={filteredTransactions}
-                    onDelete={handleDelete}
-                    onEdit={handleEdit}
-                />
-            )}
+            <div className='grid grid-cols-1'>
+                {loading ? (
+                    <p className="text-center text-gray-400">Memuat data transaksi...</p>
+                ) : (
+                    <TransactionList
+                        transactions={filteredTransactions}
+                        onDelete={handleDelete}
+                        onEdit={handleEdit}
+                    />
+                )}
+            </div>
         </div>
     );
 }

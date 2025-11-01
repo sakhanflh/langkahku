@@ -12,7 +12,7 @@ export default function TransactionList({ transactions, onDelete, onEdit }) {
             </div>
 
             <div className="overflow-x-auto">
-                <table className="w-full min-w-[600px]">
+                <table className="w-full min-w-[700px]">
                     <thead>
                         <tr className="border-b border-gray-600">
                             <th className="py-2 md:py-3 px-2 md:px-4 text-left text-xs md:text-sm">Tanggal</th>
