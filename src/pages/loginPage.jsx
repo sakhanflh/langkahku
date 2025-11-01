@@ -1,42 +1,36 @@
-// src/pages/LoginPage.jsx
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { login } from '../services/authService';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { login } from "../services/authService";
+import { useAuth } from "../context/AuthContext";
 
 export default function LoginPage() {
-    const [formData, setFormData] = useState({
-        email: '',
-        password: ''
-    });
-    const [message, setMessage] = useState({ text: '', type: '' });
+    const [formData, setFormData] = useState({ email: "", password: "" });
+    const [message, setMessage] = useState({ text: "", type: "" });
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
-
+    const { setUser } = useAuth()
     const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        });
+        setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        setMessage({ text: '', type: '' });
+        setMessage({ text: "", type: "" });
 
         try {
             const response = await login(formData);
+            setUser(response.user)
             setMessage({
                 text: response.message || "Login berhasil! Mengarahkan ke dashboard...",
                 type: "success",
             });
-            setTimeout(() => {
-                navigate('/dashboard');
-            }, 1500);
+
+            setTimeout(() => navigate("/dashboard"), 1000);
         } catch (error) {
             setMessage({
-                text: error.response?.data?.message || 'Terjadi kesalahan saat login',
-                type: 'error'
+                text: error.response?.data?.message || "Gagal login",
+                type: "error",
             });
         } finally {
             setLoading(false);
@@ -84,25 +78,27 @@ export default function LoginPage() {
                     <button
                         type="submit"
                         disabled={loading}
-                        className={`w-full bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg py-2 transition-colors duration-200 ${loading ? 'opacity-50 cursor-not-allowed' : ''
+                        className={`w-full bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg py-2 transition-colors duration-200 ${loading ? "opacity-50 cursor-not-allowed" : ""
                             }`}
                     >
-                        {loading ? 'Memproses...' : 'Login'}
+                        {loading ? "Memproses..." : "Login"}
                     </button>
                 </form>
 
                 {message.text && (
-                    <div className={`mt-4 p-3 rounded-lg text-sm ${message.type === 'success'
-                        ? 'bg-green-500/20 text-green-300'
-                        : 'bg-red-500/20 text-red-300'
-                        }`}>
+                    <div
+                        className={`mt-4 p-3 rounded-lg text-sm ${message.type === "success"
+                            ? "bg-green-500/20 text-green-300"
+                            : "bg-red-500/20 text-red-300"
+                            }`}
+                    >
                         {message.text}
                     </div>
                 )}
 
                 <div className="mt-6 text-center">
                     <p className="text-gray-400 text-sm">
-                        Belum punya akun?{' '}
+                        Belum punya akun?{" "}
                         <Link
                             to="/register"
                             className="text-green-400 hover:text-green-300 transition-colors duration-200"
@@ -114,4 +110,4 @@ export default function LoginPage() {
             </div>
         </div>
     );
-};
+}

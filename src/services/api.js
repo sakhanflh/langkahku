@@ -1,23 +1,30 @@
-// src/services/api.js
-import axios from 'axios';
+import axios from "axios";
+import { showSessionExpiredModal } from "../context/AuthContext"; // fungsi dari context
 
 const api = axios.create({
-    baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
+    baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000/api",
     headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
     },
+    withCredentials: true, // penting untuk cookies
 });
 
-// Interceptor untuk menambahkan token ke header
+// Interceptor request
 api.interceptors.request.use(
     (config) => {
-        const token = localStorage.getItem('token');
-        if (token) {
-            config.headers.Authorization = `Bearer ${token}`;
-        }
+        // (optional, tidak perlu token manual karena pakai cookies)
         return config;
     },
+    (error) => Promise.reject(error)
+);
+
+// Interceptor response
+api.interceptors.response.use(
+    (response) => response,
     (error) => {
+        if (error.response && error.response.status === 401) {
+            showSessionExpiredModal();
+        }
         return Promise.reject(error);
     }
 );

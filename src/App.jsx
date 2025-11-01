@@ -6,6 +6,8 @@ import RegisterPage from "./pages/registerPage";
 import KeuanganPage from "./pages/keuanganPage";
 import OjekTrackerPage from "./pages/ojekTrackerPage";
 import { DashboardPage } from "./pages/DashboardPage";
+import SessionExpiredModal from "./components/SessionExpiredModal";
+import SettingPage from "./pages/SettingPage";
 
 
 function App() {
@@ -44,6 +46,14 @@ function App() {
               <MainLayout>
                 <OjekTrackerPage />
               </MainLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/pengaturan"
+          element={
+            <ProtectedRoute>
+              <SettingPage />
             </ProtectedRoute>
           }
         />

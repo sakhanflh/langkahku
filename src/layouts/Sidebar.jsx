@@ -1,4 +1,7 @@
-import { FiDollarSign, FiHome, FiLogOut, FiNavigation } from "react-icons/fi";
+import { AiFillDashboard } from "react-icons/ai";
+import { FaMotorcycle } from "react-icons/fa";
+import { IoSettingsSharp } from "react-icons/io5";
+import { FiDollarSign, FiLogOut} from "react-icons/fi";
 import { Link, useNavigate } from "react-router-dom";
 import { logout } from "../services/authService";
 
@@ -12,9 +15,10 @@ export function Sidebar({ isOpen, setIsOpen }) {
     };
 
     const menuItems = [
-        { name: 'Dashboard', icon: <FiHome size={20} />, path: '/' },
+        { name: 'Dashboard', icon: <AiFillDashboard size={20} />, path: '/' },
+        { name: 'Ojek Tracker', icon: <FaMotorcycle size={20} />, path: '/ojek-tracker' },
         { name: 'Keuangan', icon: <FiDollarSign size={20} />, path: '/keuangan' },
-        { name: 'Ojek Tracker', icon: <FiNavigation size={20} />, path: '/ojek-tracker' },
+        { name: 'Pengaturan', icon: <IoSettingsSharp size={20} />, path: '/pengaturan' },
     ];
 
     return (

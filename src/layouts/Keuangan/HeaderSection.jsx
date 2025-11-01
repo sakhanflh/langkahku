@@ -1,46 +1,50 @@
 import { useState } from 'react';
-import { tambahTransaksi } from '../../services/keuanganService';
 
 export default function HeaderSection({
     selectedMonth,
     setSelectedMonth,
-    selectedCategory,
-    setSelectedCategory
+    selectedWeek,
+    setSelectedWeek,
+    onAddExpense,
+    transactions
 }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [formData, setFormData] = useState({
-        tanggal: '',
-        catatan: '',
+        keuanganId: '',
         kategori: '',
         jumlah: '',
-        jenis: 'pengeluaran'
+        catatan: ''
     });
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setFormData(prev => ({
-            ...prev,
-            [name]: value
-        }));
+        setFormData(prev => ({ ...prev, [name]: value }));
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!formData.keuanganId) {
+            alert('Pilih tanggal / keuangan terlebih dahulu');
+            return;
+        }
         try {
-            await tambahTransaksi(formData);
-            alert('Transaksi berhasil ditambahkan!');
-            // reset form
+            await onAddExpense(
+                formData.keuanganId,
+                formData.kategori,
+                Number(formData.jumlah),
+                formData.catatan
+            );
+            alert('Pengeluaran berhasil ditambahkan!');
             setFormData({
-                tanggal: '',
-                catatan: '',
+                keuanganId: '',
                 kategori: '',
                 jumlah: '',
-                jenis: 'pengeluaran'
+                catatan: ''
             });
             setIsModalOpen(false);
         } catch (err) {
-            console.error('Gagal tambah transaksi:', err);
-            alert('Gagal menambahkan transaksi');
+            console.error(err);
+            alert('Gagal menambahkan pengeluaran');
         }
     };
 
@@ -54,27 +58,33 @@ export default function HeaderSection({
                     <select
                         className="bg-gray-700 text-gray-200 rounded-lg px-3 py-2"
                         value={selectedMonth}
-                        onChange={(e) => setSelectedMonth(e.target.value)}
+                        onChange={(e) => setSelectedMonth(Number(e.target.value))}
                     >
-                        <option>Januari</option>
-                        <option>Februari</option>
-                        <option>Maret</option>
-                        <option>April</option>
-                        <option>Mei</option>
-                        <option>Juni</option>
+                        <option value="1">Januari</option>
+                        <option value="2">Februari</option>
+                        <option value="3">Maret</option>
+                        <option value="4">April</option>
+                        <option value="5">Mei</option>
+                        <option value="6">Juni</option>
+                        <option value="7">Juli</option>
+                        <option value="8">Agustus</option>
+                        <option value="9">September</option>
+                        <option value="10">Oktober</option>
+                        <option value="11">November</option>
+                        <option value="12">Desember</option>
                     </select>
 
-                    {/* Filter Kategori */}
+                    {/* Filter Minggu */}
                     <select
                         className="bg-gray-700 text-gray-200 rounded-lg px-3 py-2"
-                        value={selectedCategory}
-                        onChange={(e) => setSelectedCategory(e.target.value)}
+                        value={selectedWeek}
+                        onChange={(e) => setSelectedWeek(e.target.value)}
                     >
-                        <option>Semua</option>
-                        <option>Pendapatan</option>
-                        <option>Kebutuhan</option>
-                        <option>Hiburan</option>
-                        <option>Utilities</option>
+                        <option value="all">Semua</option>
+                        <option value="1">Minggu 1</option>
+                        <option value="2">Minggu 2</option>
+                        <option value="3">Minggu 3</option>
+                        <option value="4">Minggu 4</option>
                     </select>
 
                     {/* Tombol Tambah */}
@@ -82,75 +92,45 @@ export default function HeaderSection({
                         onClick={() => setIsModalOpen(true)}
                         className="bg-blue-600 hover:bg-blue-700 text-white rounded-lg px-4 py-2"
                     >
-                        + Tambah Transaksi
+                        + Tambah Pengeluaran
                     </button>
                 </div>
             </div>
 
-            {/* Modal */}
+            {/* Modal tambah pengeluaran manual */}
             {isModalOpen && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
                     <div className="bg-gray-700 rounded-xl w-full max-w-md p-6">
-                        <h2 className="text-xl font-semibold mb-4">Tambah Transaksi</h2>
+                        <h2 className="text-xl font-semibold mb-4">Tambah Pengeluaran Manual</h2>
                         <form onSubmit={handleSubmit} className="space-y-4">
-                            {/* Tanggal */}
-                            <input
-                                type="date"
-                                name="tanggal"
-                                value={formData.tanggal}
+                            <select
+                                name="keuanganId"
+                                value={formData.keuanganId}
                                 onChange={handleInputChange}
-                                className="w-full bg-gray-600 text-white rounded-lg px-4 py-2"
                                 required
-                            />
-
-                            {/* Catatan */}
-                            <input
-                                type="text"
-                                name="catatan"
-                                value={formData.catatan}
-                                onChange={handleInputChange}
-                                placeholder="Catatan transaksi"
                                 className="w-full bg-gray-600 text-white rounded-lg px-4 py-2"
-                            />
+                            >
+                                <option value="">Pilih Tanggal</option>
+                                {transactions?.map(trx => (
+                                    <option key={trx._id} value={trx._id}>
+                                        {new Date(trx.tanggal).toLocaleDateString('id-ID')}
+                                    </option>
+                                ))}
+                            </select>
 
-                            {/* Kategori */}
                             <select
                                 name="kategori"
                                 value={formData.kategori}
                                 onChange={handleInputChange}
-                                className="w-full bg-gray-600 text-white rounded-lg px-4 py-2"
                                 required
+                                className="w-full bg-gray-600 text-white rounded-lg px-4 py-2"
                             >
                                 <option value="">Pilih Kategori</option>
-                                <option value="Pendapatan">Pendapatan</option>
-                                <option value="Kebutuhan">Kebutuhan</option>
-                                <option value="Hiburan">Hiburan</option>
-                                <option value="Utilities">Utilities</option>
+                                <option value="Makan/Minum">Makan/Minum</option>
+                                <option value="Transport">Transport</option>
+                                <option value="Lainnya">Lainnya</option>
                             </select>
 
-                            {/* Jenis */}
-                            <div className="flex gap-4">
-                                <label>
-                                    <input
-                                        type="radio"
-                                        name="jenis"
-                                        value="pemasukan"
-                                        checked={formData.jenis === 'pemasukan'}
-                                        onChange={handleInputChange}
-                                    /> Pemasukan
-                                </label>
-                                <label>
-                                    <input
-                                        type="radio"
-                                        name="jenis"
-                                        value="pengeluaran"
-                                        checked={formData.jenis === 'pengeluaran'}
-                                        onChange={handleInputChange}
-                                    /> Pengeluaran
-                                </label>
-                            </div>
-
-                            {/* Jumlah */}
                             <input
                                 type="number"
                                 name="jumlah"
@@ -159,6 +139,15 @@ export default function HeaderSection({
                                 placeholder="Jumlah (Rp)"
                                 className="w-full bg-gray-600 text-white rounded-lg px-4 py-2"
                                 required
+                            />
+
+                            <input
+                                type="text"
+                                name="catatan"
+                                value={formData.catatan}
+                                onChange={handleInputChange}
+                                placeholder="Catatan (opsional)"
+                                className="w-full bg-gray-600 text-white rounded-lg px-4 py-2"
                             />
 
                             <div className="flex justify-end gap-3">

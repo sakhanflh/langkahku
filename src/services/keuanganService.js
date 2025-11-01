@@ -1,26 +1,41 @@
-import api from "./api"
+import api from "./api";
 
-export const getTransaksi = async () => {
-    const res = await api.get("/keuangan");
-    return res.data;
+export const getKeuangan = async () => {
+    try {
+        const response = await api.get("/keuangan");
+        return response.data;
+    } catch (error) {
+        console.error("Gagal mengambil data keuangan:", error.response?.data || error.message);
+        throw error;
+    }
 };
 
-export const tambahTransaksi = async (data) => {
-    const res = await api.post("/keuangan", data);
-    return res.data;
-}
+export const tambahPengeluaranManual = async ({ keuanganId, kategori, nominal, catatan }) => {
+    try {
+        const response = await api.post("/keuangan/pengeluaran", { keuanganId, kategori, nominal, catatan });
+        return response.data;
+    } catch (error) {
+        console.error("Gagal menambah pengeluaran manual:", error.response?.data || error.message);
+        throw error;
+    }
+};
 
-export const getTransaksiById = async (id) => {
-    const res = await api.get(`/keuangan/${id}`);
-    return res.data;
-}
+export const editPengeluaranManual = async ({ keuanganId, pengeluaranId, kategori, nominal, catatan }) => {
+    try {
+        const response = await api.put("/keuangan/pengeluaran/edit", { keuanganId, pengeluaranId, kategori, nominal, catatan });
+        return response.data;
+    } catch (error) {
+        console.error("Gagal mengedit pengeluaran manual:", error.response?.data || error.message);
+        throw error;
+    }
+};
 
-export const updateTransaksi = async (id, data) => {
-    const res = await api.put(`/keuangan/${id}`, data);
-    return res.data;
-}
-
-export const hapusTransaksi = async (id) => {
-    const res = await api.delete(`/keuangan/${id}`);
-    return res.data;
-}
+export const hapusPengeluaranManual = async ({ keuanganId, pengeluaranId }) => {
+    try {
+        const response = await api.delete("/keuangan/pengeluaran/delete", { data: { keuanganId, pengeluaranId } });
+        return response.data;
+    } catch (error) {
+        console.error("Gagal menghapus pengeluaran manual:", error.response?.data || error.message);
+        throw error;
+    }
+};
