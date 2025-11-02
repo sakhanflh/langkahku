@@ -28,7 +28,12 @@ export default function TransactionList({ transactions, onDelete, onEdit }) {
                                 {/* Row utama */}
                                 <tr className="border-b border-gray-600 hover:bg-gray-600">
                                     <td className="py-2 md:py-3 px-2 md:px-4 text-xs md:text-sm">
-                                        {new Date(trx.tanggal).toLocaleDateString("id-ID")}
+                                        {new Date(trx.tanggal).toLocaleDateString("id-ID", {
+                                            weekday: "short",
+                                            day: "2-digit",
+                                            month: "short",
+                                            year: "numeric",
+                                        })}
                                     </td>
                                     <td className="py-2 md:py-3 px-2 md:px-4 text-xs md:text-sm">Pendapatan Bersih</td>
                                     <td className="py-2 md:py-3 px-2 md:px-4 text-xs md:text-sm">-</td>

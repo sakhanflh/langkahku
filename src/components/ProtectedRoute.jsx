@@ -7,7 +7,7 @@ export function ProtectedRoute({ children }) {
     const [isValid, setIsValid] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [redirect, setRedirect] = useState(false);
-
+    
     useEffect(() => {
         const checkSession = async () => {
             try {
@@ -31,7 +31,29 @@ export function ProtectedRoute({ children }) {
     };
 
     if (isValid === null) {
-        return <div className="text-center mt-10">Memeriksa sesi...</div>;
+        return (
+            <div className="min-h-screen bg-gray-800 flex items-center justify-center p-4">
+                <div className="text-center space-y-8">
+                    {/* Elegant Spinner */}
+                    <div className="relative mx-auto w-16 h-16">
+                        {/* Pulsing Core */}
+                        <div className="absolute inset-0 bg-blue-500 rounded-full animate-ping opacity-20"></div>
+
+                        {/* Rotating Ring */}
+                        <div className="absolute inset-0 border-2 border-gray-600 border-t-blue-400 rounded-full animate-spin"></div>
+                    </div>
+
+                    {/* Content */}
+                    <div className="space-y-6">
+                        <div className="space-y-4">
+                            <p className="text-gray-200 text-sm font-light uppercase tracking-wider animate-pulse">
+                                Memeriksa Sesi
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
     }
 
     if (redirect) {
@@ -47,4 +69,4 @@ export function ProtectedRoute({ children }) {
     }
 
     return children;
-};
+}

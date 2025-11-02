@@ -113,7 +113,12 @@ export default function HeaderSection({
                                 <option value="">Pilih Tanggal</option>
                                 {transactions?.map(trx => (
                                     <option key={trx._id} value={trx._id}>
-                                        {new Date(trx.tanggal).toLocaleDateString('id-ID')}
+                                        {new Date(trx.tanggal).toLocaleDateString("id-ID", {
+                                            weekday: "short",
+                                            day: "2-digit",
+                                            month: "short",
+                                            year: "numeric",
+                                        })}
                                     </option>
                                 ))}
                             </select>
