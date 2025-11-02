@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../services/api';
+import { FcGoogle } from 'react-icons/fc';
 
 export default function RegisterPage() {
     const [formData, setFormData] = useState({
@@ -29,7 +30,7 @@ export default function RegisterPage() {
 
             if (response.status === 201) {
                 setMessage({
-                    text: 'Registrasi berhasil! Anda akan diarahkan ke halaman login...',
+                    text: 'Berhasil membuat akun! Mengarahkan ke halaman login...',
                     type: 'success'
                 });
 
@@ -41,7 +42,7 @@ export default function RegisterPage() {
 
                 setTimeout(() => {
                     navigate('/login');
-                }, 5000);
+                }, 3000);
             }
         } catch (error) {
             console.error('Register error:', error);
@@ -54,15 +55,45 @@ export default function RegisterPage() {
         }
     };
 
-    return (
-        <div className="min-h-screen bg-gray-800 flex items-center justify-center p-4">
-            <div className="bg-gray-700 rounded-xl p-6 md:p-8 w-full max-w-md">
-                <h2 className="text-2xl font-bold text-white text-center mb-6">Daftar Akun</h2>
+    const handleGoogleRegister = () => {
+        // Implement Google register logic here
+        console.log("Google register clicked");
+        setMessage({
+            text: "Fitur registrasi Google akan segera tersedia",
+            type: "info",
+        });
+    };
 
-                <form onSubmit={handleSubmit} className="space-y-4">
+    return (
+        <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4">
+            <div className="w-full max-w-md">
+                {/* Header */}
+                <div className="text-center mb-4">
+                    <h1 className="text-3xl font-bold text-white mb-2">LANGKAHKU</h1>
+                    <p className="text-gray-400">Buat akun baru Anda</p>
+                </div>
+
+                {/* Google Register Button */}
+                <button
+                    onClick={handleGoogleRegister}
+                    className="w-full bg-white hover:bg-gray-100 text-gray-800 font-medium rounded-xl py-3 px-4 transition-all duration-200 flex items-center justify-center space-x-3 mb-6 border border-gray-300 hover:shadow-lg"
+                >
+                    <FcGoogle size={20} />
+                    <span>Daftar dengan Google</span>
+                </button>
+
+                {/* Divider */}
+                <div className="relative flex items-center justify-center mb-6">
+                    <div className="border-t border-gray-600 flex-grow"></div>
+                    <span className="px-4 text-gray-500 text-sm">atau</span>
+                    <div className="border-t border-gray-600 flex-grow"></div>
+                </div>
+
+                {/* Register Form */}
+                <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
-                        <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-1">
-                            Name
+                        <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
+                            Nama
                         </label>
                         <input
                             type="text"
@@ -70,14 +101,14 @@ export default function RegisterPage() {
                             name="name"
                             value={formData.name}
                             onChange={handleChange}
-                            className="w-full bg-gray-600 text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
-                            placeholder="Masukkan name"
+                            className="w-full bg-gray-700 border border-gray-600 text-white rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-200 placeholder-gray-400"
+                            placeholder="Masukkan nama anda"
                             required
                         />
                     </div>
 
                     <div>
-                        <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-1">
+                        <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
                             Email
                         </label>
                         <input
@@ -86,14 +117,14 @@ export default function RegisterPage() {
                             name="email"
                             value={formData.email}
                             onChange={handleChange}
-                            className="w-full bg-gray-600 text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
-                            placeholder="Masukkan email"
+                            className="w-full bg-gray-700 border border-gray-600 text-white rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-200 placeholder-gray-400"
+                            placeholder="email@contoh.com"
                             required
                         />
                     </div>
 
                     <div>
-                        <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-1">
+                        <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-2">
                             Password
                         </label>
                         <input
@@ -102,41 +133,74 @@ export default function RegisterPage() {
                             name="password"
                             value={formData.password}
                             onChange={handleChange}
-                            className="w-full bg-gray-600 text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
-                            placeholder="Masukkan password"
+                            className="w-full bg-gray-700 border border-gray-600 text-white rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-200 placeholder-gray-400"
+                            placeholder="Buat password yang kuat"
                             required
                         />
+                    </div>
+
+                    {/* Terms and Conditions */}
+                    <div className="flex items-start space-x-3 text-sm">
+                        <input
+                            type="checkbox"
+                            id="terms"
+                            className="mt-1 w-4 h-4 bg-gray-700 border-gray-600 rounded focus:ring-emerald-500 focus:ring-offset-gray-800"
+                            required
+                        />
+                        <label htmlFor="terms" className="text-gray-400">
+                            Saya menyetujui{' '}
+                            <Link to="/terms" className="text-emerald-400 hover:text-emerald-300">
+                                Syarat & Ketentuan
+                            </Link>{' '}
+                            dan{' '}
+                            <Link to="/privacy" className="text-emerald-400 hover:text-emerald-300">
+                                Kebijakan Privasi
+                            </Link>
+                        </label>
                     </div>
 
                     <button
                         type="submit"
                         disabled={loading}
-                        className={`w-full bg-green-500 hover:bg-green-600 text-white font-medium rounded-lg py-2 transition-colors duration-200 ${loading ? 'opacity-50 cursor-not-allowed' : ''
+                        className={`w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-xl py-3 px-4 transition-all duration-200 flex items-center justify-center ${loading
+                            ? "opacity-50 cursor-not-allowed"
+                            : "hover:shadow-lg transform hover:-translate-y-0.5"
                             }`}
                     >
-                        {loading ? 'Mendaftarkan...' : 'Daftar'}
+                        {loading ? (
+                            <>
+                                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                                Membuat Akun...
+                            </>
+                        ) : (
+                            "Buat Akun"
+                        )}
                     </button>
                 </form>
 
+                {/* Message Alert */}
                 {message.text && (
                     <div
-                        className={`mt-4 p-3 rounded-lg text-sm ${message.type === 'success'
-                                ? 'bg-green-500/20 text-green-300'
-                                : 'bg-red-500/20 text-red-300'
+                        className={`mt-6 p-4 rounded-xl border text-sm ${message.type === "success"
+                            ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-400"
+                            : message.type === "error"
+                                ? "bg-red-500/10 border-red-500/30 text-red-400"
+                                : "bg-blue-500/10 border-blue-500/30 text-blue-400"
                             }`}
                     >
                         {message.text}
                     </div>
                 )}
 
-                <div className="mt-6 text-center">
+                {/* Footer Links */}
+                <div className="mt-8 text-center">
                     <p className="text-gray-400 text-sm">
                         Sudah punya akun?{' '}
                         <Link
                             to="/login"
-                            className="text-blue-400 hover:text-blue-300 transition-colors duration-200"
+                            className="text-emerald-400 hover:text-emerald-300 font-medium transition-colors duration-200"
                         >
-                            Login di sini
+                            Masuk di sini
                         </Link>
                     </p>
                 </div>

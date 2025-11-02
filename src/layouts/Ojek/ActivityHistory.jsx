@@ -89,56 +89,86 @@ export default function ActivityHistory({ activities, onDeleteActivity }) {
 
             {/* Modal Konfirmasi */}
             {showModal && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-gray-800 rounded-xl shadow-lg p-6 w-80 text-center">
-                        <h3 className="text-lg font-semibold mb-4">Konfirmasi Hapus</h3>
-                        <p className="text-sm text-gray-300 mb-6">
-                            Yakin ingin menghapus aktivitas ini?
-                        </p>
-                        <div className="flex justify-center gap-3">
-                            <button
-                                onClick={() => setShowModal(false)}
-                                className="px-4 py-2 bg-gray-600 hover:bg-gray-500 rounded-lg transition text-sm"
-                                disabled={isDeleting}
-                            >
-                                Batal
-                            </button>
-                            <button
-                                onClick={handleConfirmDelete}
-                                className={`px-4 py-2 bg-red-600 hover:bg-red-500 rounded-lg transition text-sm flex items-center justify-center min-w-[80px] ${isDeleting ? "opacity-80 cursor-not-allowed" : ""
-                                    }`}
-                                disabled={isDeleting}
-                            >
-                                {isDeleting ? (
-                                    <svg
-                                        className="w-5 h-5 text-white animate-spin"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <circle
-                                            className="opacity-25"
-                                            cx="12"
-                                            cy="12"
-                                            r="10"
-                                            stroke="currentColor"
-                                            strokeWidth="4"
-                                        ></circle>
-                                        <path
-                                            className="opacity-75"
-                                            fill="currentColor"
-                                            d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
-                                        ></path>
-                                    </svg>
-                                ) : (
-                                    "Yakin"
-                                )}
-                            </button>
-
-                        </div>
-                    </div>
+    <div className="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-50 p-4">
+        <div className="bg-gray-800 rounded-2xl shadow-2xl border border-gray-700/50 p-8 w-full max-w-md transform transition-all duration-300 scale-100">
+            {/* Header dengan Icon */}
+            <div className="flex items-center space-x-4 mb-6">
+                <div className="w-12 h-12 bg-red-500/10 rounded-xl flex items-center justify-center">
+                    <svg 
+                        className="w-6 h-6 text-red-400" 
+                        fill="none" 
+                        stroke="currentColor" 
+                        viewBox="0 0 24 24"
+                    >
+                        <path 
+                            strokeLinecap="round" 
+                            strokeLinejoin="round" 
+                            strokeWidth={2} 
+                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" 
+                        />
+                    </svg>
                 </div>
-            )}
+                <div className="flex-1">
+                    <h3 className="text-xl font-bold text-white">Hapus Aktivitas</h3>
+                    <p className="text-gray-400 text-sm mt-1">
+                        Tindakan ini tidak dapat dibatalkan
+                    </p>
+                </div>
+            </div>
+
+            {/* Description */}
+            <div className="bg-gray-750 rounded-xl p-4 mb-6">
+                <p className="text-gray-300 text-sm leading-relaxed">
+                    Yakin ingin menghapus aktivitas ini? Data yang sudah dihapus tidak dapat dikembalikan.
+                </p>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex space-x-3">
+                <button
+                    onClick={() => setShowModal(false)}
+                    disabled={isDeleting}
+                    className="flex-1 px-6 py-3.5 bg-gray-700 hover:bg-gray-600 text-gray-300 rounded-xl font-medium transition-all duration-200 hover:shadow-lg border border-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                    Batal
+                </button>
+                <button
+                    onClick={handleConfirmDelete}
+                    disabled={isDeleting}
+                    className="flex-1 px-6 py-3.5 bg-red-500 hover:bg-red-600 text-white rounded-xl font-medium transition-all duration-200 hover:shadow-lg hover:shadow-red-500/20 transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center space-x-2"
+                >
+                    {isDeleting ? (
+                        <>
+                            <svg
+                                className="w-4 h-4 text-white animate-spin"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                            >
+                                <circle
+                                    className="opacity-25"
+                                    cx="12"
+                                    cy="12"
+                                    r="10"
+                                    stroke="currentColor"
+                                    strokeWidth="4"
+                                ></circle>
+                                <path
+                                    className="opacity-75"
+                                    fill="currentColor"
+                                    d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                                ></path>
+                            </svg>
+                            <span>Menghapus...</span>
+                        </>
+                    ) : (
+                        "Hapus"
+                    )}
+                </button>
+            </div>
+        </div>
+    </div>
+)}
         </div>
     );
 }
