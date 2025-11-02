@@ -4,7 +4,7 @@ import { FaTrash, FaEdit } from "react-icons/fa";
 export default function TransactionList({ transactions, onDelete, onEdit }) {
     const [showModal, setShowModal] = useState(false);
     const [deleteTarget, setDeleteTarget] = useState({ trxId: null, expId: null });
-    const [isDeleting, setIsDeleting] = useState(false); // ✅ state baru
+    const [isDeleting, setIsDeleting] = useState(false);
 
     // buka modal
     const handleDeleteClick = (trxId, expId) => {
@@ -80,20 +80,12 @@ export default function TransactionList({ transactions, onDelete, onEdit }) {
                                                 - Rp {exp.nominal.toLocaleString("id-ID")}
                                             </td>
                                             <td className="py-2 md:py-3 px-2 md:px-4 text-center text-xs md:text-sm">
-                                                <div className="flex justify-center space-x-2">
-                                                    <button
-                                                        onClick={() => onEdit(trx._id, exp._id)}
-                                                        className="text-blue-400 hover:text-blue-300 text-sm md:text-base"
-                                                    >
-                                                        <FaEdit />
-                                                    </button>
-                                                    <button
-                                                        onClick={() => handleDeleteClick(trx._id, exp._id)}
-                                                        className="text-red-400 hover:text-red-300 text-sm md:text-base"
-                                                    >
-                                                        <FaTrash />
-                                                    </button>
-                                                </div>
+                                                <button
+                                                    onClick={() => handleDeleteClick(trx._id, exp._id)}
+                                                    className="text-red-400 hover:text-red-300 text-sm md:text-base"
+                                                >
+                                                    <FaTrash />
+                                                </button>
                                             </td>
                                         </tr>
                                     ))}

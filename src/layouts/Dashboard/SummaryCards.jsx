@@ -101,7 +101,7 @@ export function SummaryCards() {
         <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
             {summaryData.map((item) => (
                 <div key={item.id} className="bg-gray-700 rounded-xl shadow-lg p-4 flex items-center">
-                    <div className={`${item.color} w-10 h-10 md:w-12 md:h-12 rounded-lg flex items-center justify-center text-white text-xl mr-4`}>
+                    <div className={`${item.color} hidden w-10 h-10 md:w-12 md:h-12 rounded-lg md:flex items-center justify-center text-white text-xl mr-4`}>
                         {item.icon}
                     </div>
                     <div>

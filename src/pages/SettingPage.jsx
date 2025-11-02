@@ -1,38 +1,57 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FiArrowLeft, FiMoon, FiGlobe, FiDroplet, FiPieChart, FiTarget, FiSave } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
+import { getUserSetting, updateUserSetting } from '../services/settingService';
 
 const SettingPage = () => {
-    // State untuk pengaturan umum
     const [darkMode, setDarkMode] = useState(false);
     const [language, setLanguage] = useState('id');
 
-    // State untuk pengaturan ojek tracker
     const [fuelPrice, setFuelPrice] = useState('');
     const [savingPercentage, setSavingPercentage] = useState('');
     const [dailyTarget, setDailyTarget] = useState('');
 
-    const navigate = useNavigate();
-    // State untuk animasi dan feedback
     const [isSaving, setIsSaving] = useState(false);
+    const [loading, setLoading] = useState(true)
 
-    const handleSave = () => {
-        setIsSaving(true);
+    const navigate = useNavigate();
 
-        // Simulasi proses penyimpanan
-        console.log('Pengaturan disimpan:', {
-            darkMode,
-            language,
-            fuelPrice: parseInt(fuelPrice) || 0,
-            savingPercentage: parseInt(savingPercentage) || 0,
-            dailyTarget: parseInt(dailyTarget) || 0
-        });
+    useEffect(() => {
+        const fetchSetting = async () => {
+            try {
+                const data = await getUserSetting()
+                setFuelPrice(data.fuelPrice || '')
+                setSavingPercentage(data.savingPercentage || '')
+            } catch (error) {
+                console.error("Gagal memuat setting:", error)
+            } finally {
+                setLoading(false)
+            }
+        }
+        fetchSetting()
+    }, [])
 
-        setTimeout(() => {
-            setIsSaving(false);
-        }, 1000);
-    };
+    const handleSave = async () => {
+        setIsSaving(true)
+        try {
+            const payload = {
+                fuelPrice: parseInt(fuelPrice),
+                savingPercentage: parseInt(savingPercentage)
+            }
+            const res = await updateUserSetting(payload)
+            console.log("Berhasil disimpan", res)
+            alert("Pengaturan berasil disimpan!")
+        } catch (error) {
+            console.error("Gagal menyimpan pengaturan:", error)
+            alert("Gagal menyimpan pengaturan!")
+        } finally {
+            setIsSaving(false)
+        }
+    }
 
+    if (loading) return <div className="p-6 text-center text-gray-400">Memuat pengaturan...</div>;
+
+    
     return (
         <div className="min-h-screen transition-colors duration-300">
             {/* Header */}
@@ -187,8 +206,8 @@ const SettingPage = () => {
                         onClick={handleSave}
                         disabled={isSaving}
                         className={`flex items-center space-x-2 px-6 py-3 bg-blue-600 text-white rounded-lg font-medium transition-all duration-300 ${isSaving
-                                ? 'opacity-50 cursor-not-allowed'
-                                : 'hover:bg-blue-700 hover:shadow-lg transform hover:-translate-y-0.5'
+                            ? 'opacity-50 cursor-not-allowed'
+                            : 'hover:bg-blue-700 hover:shadow-lg transform hover:-translate-y-0.5'
                             }`}
                     >
                         {isSaving ? (
