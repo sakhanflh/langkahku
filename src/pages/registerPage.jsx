@@ -1,4 +1,3 @@
-// src/pages/RegisterPage.jsx
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../services/api';
@@ -28,19 +27,21 @@ export default function RegisterPage() {
         try {
             const response = await api.post('/auth/register', formData);
 
-            if (response.data.success) {
+            if (response.status === 201) {
                 setMessage({
-                    text: 'Registrasi berhasil! Silakan login.',
+                    text: 'Registrasi berhasil! Anda akan diarahkan ke halaman login...',
                     type: 'success'
                 });
 
-                // Reset form
                 setFormData({
                     name: '',
                     email: '',
                     password: ''
                 });
-                navigate('/login');
+
+                setTimeout(() => {
+                    navigate('/login');
+                }, 5000);
             }
         } catch (error) {
             console.error('Register error:', error);
@@ -118,10 +119,12 @@ export default function RegisterPage() {
                 </form>
 
                 {message.text && (
-                    <div className={`mt-4 p-3 rounded-lg text-sm ${message.type === 'success'
-                        ? 'bg-green-500/20 text-green-300'
-                        : 'bg-red-500/20 text-red-300'
-                        }`}>
+                    <div
+                        className={`mt-4 p-3 rounded-lg text-sm ${message.type === 'success'
+                                ? 'bg-green-500/20 text-green-300'
+                                : 'bg-red-500/20 text-red-300'
+                            }`}
+                    >
                         {message.text}
                     </div>
                 )}
@@ -140,4 +143,4 @@ export default function RegisterPage() {
             </div>
         </div>
     );
-};
+}
