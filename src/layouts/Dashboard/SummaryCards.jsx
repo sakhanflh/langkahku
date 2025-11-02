@@ -13,11 +13,10 @@ export function SummaryCards() {
         { id: 4, title: 'Total Tabungan Minggu Ini', value: 'Rp 0', icon: <MdSavings />, color: 'bg-yellow-500' },
     ]);
 
-    // Fungsi untuk menentukan minggu ke-n dalam 1 bulan (1-4)
     const getWeekOfMonth = (date) => {
         const d = new Date(date);
         const day = d.getDate();
-        return Math.ceil(day / 7); // minggu 1: 1-7, minggu 2: 8-14, dll
+        return Math.ceil(day / 7); 
     };
 
     const fetchSummary = async () => {
@@ -25,12 +24,9 @@ export function SummaryCards() {
             const keuanganData = await getKeuangan();
             const trackerData = await getTracker();
 
-            console.log(trackerData)
-
             const today = new Date();
             const currentWeek = getWeekOfMonth(today);
 
-            // Ambil semua data keuangan hari ini
             const keuanganHariIniArray = keuanganData.filter(k => {
                 const tgl = new Date(k.tanggal);
                 return tgl.getFullYear() === today.getFullYear() &&
@@ -38,26 +34,21 @@ export function SummaryCards() {
                     tgl.getDate() === today.getDate();
             });
 
-            // Hitung pendapatan hari ini (jumlah semua record hari ini)
             const pendapatanHariIni = keuanganHariIniArray.reduce(
                 (sum, k) => sum + Number(k.pendapatan || 0),
                 0
             );
 
-            // Hitung pengeluaran hari ini (bensin + pengeluaranManual)
             const pengeluaranHariIni = keuanganHariIniArray.reduce((sum, k) => {
                 const manual = (k.pengeluaranManual || []).reduce((s, p) => s + Number(p.nominal), 0);
                 return sum + Number(k.bensin || 0) + manual;
             }, 0);
 
-            // Km ditempuh hari ini dari tracker
             const kmDitempuhHariIni = trackerData.reduce((sum, item) => sum + Number(item.km), 0);
 
-            // Total tabungan minggu ini (hanya record dari minggu saat ini)
             const keuanganMingguIni = keuanganData.filter(k => getWeekOfMonth(k.tanggal) === currentWeek);
             const totalTabunganMingguIni = keuanganMingguIni.reduce((sum, k) => sum + Number(k.tabungan || 0), 0);
 
-            // Update state
             setSummaryData([
                 { 
                     id: 1, 
