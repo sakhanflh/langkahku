@@ -1,24 +1,21 @@
 import axios from "axios";
-import { showSessionExpiredModal } from "../context/AuthContext"; // fungsi dari context
+import { showSessionExpiredModal } from "../context/AuthContext";
 
 const api = axios.create({
-    baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000/api",
+    baseURL: import.meta.env.VITE_API_URL,
     headers: {
         "Content-Type": "application/json",
     },
-    withCredentials: true, // penting untuk cookies
+    withCredentials: true,
 });
 
-// Interceptor request
 api.interceptors.request.use(
     (config) => {
-        // (optional, tidak perlu token manual karena pakai cookies)
         return config;
     },
     (error) => Promise.reject(error)
 );
 
-// Interceptor response
 api.interceptors.response.use(
     (response) => response,
     (error) => {

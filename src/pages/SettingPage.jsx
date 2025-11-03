@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { FiArrowLeft, FiMoon, FiGlobe, FiDroplet, FiPieChart, FiTarget, FiSave } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 import { getUserSetting, updateUserSetting } from '../services/settingService';
+import { SupportSetting } from '../layouts/Settings/SupportSetting';
 
 const SettingPage = () => {
     const [darkMode, setDarkMode] = useState(false);
@@ -51,10 +52,9 @@ const SettingPage = () => {
 
     if (loading) return <div className="p-6 text-center text-gray-400">Memuat pengaturan...</div>;
 
-    
+
     return (
         <div className="min-h-screen transition-colors duration-300">
-            {/* Header */}
             <header className="bg-gray-800 shadow-sm border-b border-gray-700 sticky top-0 z-10">
                 <div className="max-w-2xl mx-auto px-4 py-4 flex items-center">
                     <button
@@ -223,6 +223,11 @@ const SettingPage = () => {
                         )}
                     </button>
                 </div>
+
+
+                <section className="my-8">
+                    <SupportSetting />
+                </section>
             </main>
         </div>
     );

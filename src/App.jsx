@@ -8,6 +8,8 @@ import OjekTrackerPage from "./pages/ojekTrackerPage";
 import { DashboardPage } from "./pages/DashboardPage";
 import SessionExpiredModal from "./components/SessionExpiredModal";
 import SettingPage from "./pages/SettingPage";
+import MessageLikePage from "./pages/MessageLikePage";
+import DonationPage from "./pages/DonationPage";
 
 
 function App() {
@@ -54,6 +56,22 @@ function App() {
           element={
             <ProtectedRoute>
               <SettingPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/dukungan/pesan"
+          element={
+            <ProtectedRoute>
+              <MessageLikePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/dukungan/donasi"
+          element={
+            <ProtectedRoute>
+              <DonationPage />
             </ProtectedRoute>
           }
         />
