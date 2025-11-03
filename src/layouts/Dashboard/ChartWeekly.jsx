@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import { getKeuangan } from "../../services/keuanganService";
 import { getTracker } from "../../services/trackerService";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { SkeletonLoading } from "../SkeletonLoading";
 
 export function ChartWeekly() {
     const [pendapatanData, setPendapatanData] = useState([]);
     const [orderData, setOrderData] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     const getWeekOfMonth = (date) => Math.ceil(new Date(date).getDate() / 7);
 
@@ -47,9 +49,10 @@ export function ChartWeekly() {
                 // Update state
                 setPendapatanData(pendapatanChartData);
                 setOrderData(orderChartData);
-
             } catch (error) {
                 console.error("Gagal fetch chart data:", error);
+            } finally {
+                setLoading(false);
             }
         };
 
@@ -61,34 +64,42 @@ export function ChartWeekly() {
             {/* Chart Pendapatan Minggu Ini */}
             <div className="bg-gray-700 rounded-xl shadow-lg p-4">
                 <h3 className="text-gray-200 mb-2 font-semibold">Pendapatan Minggu Ini</h3>
-                <div className="h-64">
-                    <ResponsiveContainer width="100%" height="100%">
-                        <LineChart data={pendapatanData}>
-                            <CartesianGrid strokeDasharray="3 3" stroke="#444" />
-                            <XAxis dataKey="day" stroke="#fff" />
-                            <YAxis stroke="#fff" />
-                            <Tooltip formatter={(value) => [`Rp ${value.toLocaleString()}`, 'Pendapatan']} />
-                            <Legend />
-                            <Line type="monotone" dataKey="income" stroke="#4ade80" strokeWidth={2} />
-                        </LineChart>
-                    </ResponsiveContainer>
+                <div className="h-64 flex items-center justify-center">
+                    {loading ? (
+                        <SkeletonLoading width="100%" height="100%" className="rounded-xl" />
+                    ) : (
+                        <ResponsiveContainer width="100%" height="100%">
+                            <LineChart data={pendapatanData}>
+                                <CartesianGrid strokeDasharray="3 3" stroke="#444" />
+                                <XAxis dataKey="day" stroke="#fff" />
+                                <YAxis stroke="#fff" />
+                                <Tooltip formatter={(value) => [`Rp ${value.toLocaleString()}`, 'Pendapatan']} />
+                                <Legend />
+                                <Line type="monotone" dataKey="income" stroke="#4ade80" strokeWidth={2} />
+                            </LineChart>
+                        </ResponsiveContainer>
+                    )}
                 </div>
             </div>
 
             {/* Chart Orderan Minggu Ini */}
             <div className="bg-gray-700 rounded-xl shadow-lg p-4">
                 <h3 className="text-gray-200 mb-2 font-semibold">Orderan Minggu Ini</h3>
-                <div className="h-64">
-                    <ResponsiveContainer width="100%" height="100%">
-                        <LineChart data={orderData}>
-                            <CartesianGrid strokeDasharray="3 3" stroke="#444" />
-                            <XAxis dataKey="day" stroke="#fff" />
-                            <YAxis stroke="#fff" />
-                            <Tooltip formatter={(value) => [value, 'Order']} />
-                            <Legend />
-                            <Line type="monotone" dataKey="orders" stroke="#60a5fa" strokeWidth={2} />
-                        </LineChart>
-                    </ResponsiveContainer>
+                <div className="h-64 flex items-center justify-center">
+                    {loading ? (
+                        <SkeletonLoading width="100%" height="100%" className="rounded-xl" />
+                    ) : (
+                        <ResponsiveContainer width="100%" height="100%">
+                            <LineChart data={orderData}>
+                                <CartesianGrid strokeDasharray="3 3" stroke="#444" />
+                                <XAxis dataKey="day" stroke="#fff" />
+                                <YAxis stroke="#fff" />
+                                <Tooltip formatter={(value) => [value, 'Order']} />
+                                <Legend />
+                                <Line type="monotone" dataKey="orders" stroke="#60a5fa" strokeWidth={2} />
+                            </LineChart>
+                        </ResponsiveContainer>
+                    )}
                 </div>
             </div>
         </div>

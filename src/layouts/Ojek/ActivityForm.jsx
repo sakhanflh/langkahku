@@ -1,5 +1,8 @@
+import { useState } from "react";
 
 export default function ActivityForm({ formData, setFormData, onAddActivity }) {
+    const [loading, setLoading] = useState(false); // <- state untuk loading
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData({
@@ -8,9 +11,10 @@ export default function ActivityForm({ formData, setFormData, onAddActivity }) {
         });
     };
 
-    // Handler untuk menambah data aktivitas
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true); // mulai loading
+
         const newActivity = {
             tanggal: formData.tanggal,
             km: parseInt(formData.km),
@@ -19,20 +23,29 @@ export default function ActivityForm({ formData, setFormData, onAddActivity }) {
             avgKmPerLiter: parseInt(formData.avgKmPerLiter),
             bensin: parseInt(formData.bensin || 0),
             servis: parseInt(formData.servis || 0),
+            note: formData.note || ""
         };
 
-        onAddActivity(newActivity);
+        try {
+            // Jalankan fungsi callback onAddActivity (bisa async)
+            await onAddActivity(newActivity);
 
-        // Reset form
-        setFormData({
-            tanggal: new Date().toISOString().split('T')[0],
-            km: '',
-            order: '',
-            pendapatan: '',
-            avgKmPerLiter: '',
-            bensin: '',
-            servis: '',
-        });
+            // Reset form
+            setFormData({
+                tanggal: new Date().toISOString().split('T')[0],
+                km: '',
+                order: '',
+                pendapatan: '',
+                avgKmPerLiter: '',
+                bensin: '',
+                servis: '',
+                note: ''
+            });
+        } catch (err) {
+            console.error("Gagal menambah aktivitas:", err);
+        } finally {
+            setLoading(false); // hentikan loading
+        }
     };
 
     return (
@@ -83,7 +96,7 @@ export default function ActivityForm({ formData, setFormData, onAddActivity }) {
                     </div>
                 </div>
 
-                {/* Pendapatan dan Bensin */}
+                {/* Pendapatan dan AVG KM */}
                 <div className="grid grid-cols-2 gap-3 mb-4">
                     <div>
                         <label className="block text-gray-300 mb-2 text-sm md:text-base">Pendapatan (Rp)</label>
@@ -113,7 +126,7 @@ export default function ActivityForm({ formData, setFormData, onAddActivity }) {
                     </div>
                 </div>
 
-
+                {/* Catatan */}
                 <div className="mb-4">
                     <label className="block text-gray-300 mb-2 text-sm md:text-base">Catatan</label>
                     <textarea
@@ -129,9 +142,34 @@ export default function ActivityForm({ formData, setFormData, onAddActivity }) {
                 {/* Tombol Simpan */}
                 <button
                     type="submit"
-                    className="w-full bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg py-2 md:py-3 transition-colors"
+                    disabled={loading}
+                    className={`w-full flex justify-center items-center gap-2 ${
+                        loading ? 'bg-gray-500' : 'bg-green-600 hover:bg-green-700'
+                    } text-white font-medium rounded-lg py-2 md:py-3 transition-colors`}
                 >
-                    Simpan
+                    {loading && (
+                        <svg
+                            className="animate-spin h-5 w-5 text-white"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                        >
+                            <circle
+                                className="opacity-25"
+                                cx="12"
+                                cy="12"
+                                r="10"
+                                stroke="currentColor"
+                                strokeWidth="4"
+                            ></circle>
+                            <path
+                                className="opacity-75"
+                                fill="currentColor"
+                                d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                            ></path>
+                        </svg>
+                    )}
+                    {loading ? "Menyimpan..." : "Simpan"}
                 </button>
             </form>
         </div>

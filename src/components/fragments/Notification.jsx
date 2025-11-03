@@ -142,7 +142,7 @@ const Notification = ({ hasNew = false }) => {
 
       {/* Dropdown Notification */}
       <div
-        className={`absolute right-0 top-full mt-3 w-96 bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden transition-all duration-300 ease-out transform origin-top-right z-50 ${isOpen
+        className={`absolute right-0 top-full mt-3 w-80 md:w-96 bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden transition-all duration-300 ease-out transform origin-top-right z-50 ${isOpen
           ? 'opacity-100 scale-100 translate-y-0'
           : 'opacity-0 scale-95 -translate-y-2 pointer-events-none'
           }`}

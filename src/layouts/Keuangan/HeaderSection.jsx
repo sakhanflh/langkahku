@@ -16,6 +16,9 @@ export default function HeaderSection({
         catatan: ''
     });
 
+    const [loading, setLoading] = useState(false);
+    const [success, setSuccess] = useState(false);
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
@@ -27,6 +30,10 @@ export default function HeaderSection({
             alert('Pilih tanggal / keuangan terlebih dahulu');
             return;
         }
+
+        setLoading(true);
+        setSuccess(false);
+
         try {
             await onAddExpense(
                 formData.keuanganId,
@@ -34,17 +41,28 @@ export default function HeaderSection({
                 Number(formData.jumlah),
                 formData.catatan
             );
-            alert('Pengeluaran berhasil ditambahkan!');
+
+            // tampilkan pesan sukses
+            setSuccess(true);
+
+            // reset form
             setFormData({
                 keuanganId: '',
                 kategori: '',
                 jumlah: '',
                 catatan: ''
             });
-            setIsModalOpen(false);
+
+            // auto close setelah 2 detik
+            setTimeout(() => {
+                setIsModalOpen(false);
+                setSuccess(false);
+            }, 2000);
         } catch (err) {
             console.error(err);
             alert('Gagal menambahkan pengeluaran');
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -160,14 +178,48 @@ export default function HeaderSection({
                                     type="button"
                                     onClick={() => setIsModalOpen(false)}
                                     className="text-gray-300"
+                                    disabled={loading}
                                 >
                                     Batal
                                 </button>
+
                                 <button
                                     type="submit"
-                                    className="bg-blue-600 px-4 py-2 rounded-lg text-white"
+                                    disabled={loading || success}
+                                    className={`flex justify-center items-center gap-2 px-4 py-2 rounded-lg text-white font-medium transition-colors ${success
+                                            ? 'bg-green-600'
+                                            : loading
+                                                ? 'bg-gray-500'
+                                                : 'bg-blue-600 hover:bg-blue-700'
+                                        }`}
                                 >
-                                    Simpan
+                                    {loading && (
+                                        <svg
+                                            className="animate-spin h-5 w-5 text-white"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <circle
+                                                className="opacity-25"
+                                                cx="12"
+                                                cy="12"
+                                                r="10"
+                                                stroke="currentColor"
+                                                strokeWidth="4"
+                                            ></circle>
+                                            <path
+                                                className="opacity-75"
+                                                fill="currentColor"
+                                                d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                                            ></path>
+                                        </svg>
+                                    )}
+                                    {loading
+                                        ? 'Menyimpan...'
+                                        : success
+                                            ? 'Berhasil Disimpan ✅'
+                                            : 'Simpan'}
                                 </button>
                             </div>
                         </form>

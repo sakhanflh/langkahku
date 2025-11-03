@@ -8,6 +8,7 @@ import {
     hapusPengeluaranManual,
     tambahPengeluaranManual
 } from '../services/keuanganService';
+import { SkeletonLoading } from '../layouts/SkeletonLoading';
 
 export default function KeuanganPage() {
     const [transactions, setTransactions] = useState([]);
@@ -18,10 +19,10 @@ export default function KeuanganPage() {
     const [balance, setBalance] = useState(0);
     const [totalSavings, setTotalSavings] = useState(0);
 
-    const today = new Date()
-    const currentMonth = today.getMonth() + 1
-    let currentWeek = Math.ceil(today.getDate() / 7)
-    if (currentWeek > 4) currentWeek = 4
+    const today = new Date();
+    const currentMonth = today.getMonth() + 1;
+    let currentWeek = Math.ceil(today.getDate() / 7);
+    if (currentWeek > 4) currentWeek = 4;
 
     const [selectedMonth, setSelectedMonth] = useState(currentMonth);
     const [selectedWeek, setSelectedWeek] = useState(currentWeek);
@@ -38,7 +39,7 @@ export default function KeuanganPage() {
         setLoading(false);
     };
 
-    // Filter transaksi berdasarkan bulan + minggu
+    // Filter transaksi + hitung summary
     useEffect(() => {
         const filtered = transactions.filter(trx => {
             const date = new Date(trx.tanggal);
@@ -67,12 +68,11 @@ export default function KeuanganPage() {
         setBalance(netBalance);
     }, [transactions, selectedMonth, selectedWeek]);
 
-
     useEffect(() => {
         fetchKeuangan();
     }, []);
 
-    // Tambah pengeluaran manual
+    // CRUD pengeluaran manual
     const handleAddExpense = async (keuanganId, kategori, nominal, catatan) => {
         try {
             await tambahPengeluaranManual({ keuanganId, kategori, nominal, catatan });
@@ -82,7 +82,6 @@ export default function KeuanganPage() {
         }
     };
 
-    // Edit pengeluaran manual
     const handleEdit = async (keuanganId, pengeluaranId, kategori, nominal, catatan) => {
         try {
             await editPengeluaranManual({ keuanganId, pengeluaranId, kategori, nominal, catatan });
@@ -92,7 +91,6 @@ export default function KeuanganPage() {
         }
     };
 
-    // Hapus pengeluaran manual
     const handleDelete = async (keuanganId, pengeluaranId) => {
         try {
             await hapusPengeluaranManual({ keuanganId, pengeluaranId });
@@ -113,23 +111,51 @@ export default function KeuanganPage() {
                 transactions={transactions}
             />
 
-            <SummaryCards
-                totalIncome={totalIncome}
-                totalExpense={totalExpense}
-                totalSavings={totalSavings}
-                balance={balance}
-            />
-            <div className='grid grid-cols-1'>
-                {loading ? (
-                    <p className="text-center text-gray-400">Memuat data transaksi...</p>
-                ) : (
-                    <TransactionList
-                        transactions={filteredTransactions}
-                        onDelete={handleDelete}
-                        onEdit={handleEdit}
+            {loading ? (
+                <div className="space-y-6">
+                    {/* Skeleton SummaryCards */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        {[...Array(4)].map((_, i) => (
+                            <div key={i} className="bg-gray-700 p-4 rounded-xl shadow-lg">
+                                <SkeletonLoading width="60%" height="1rem" className="mb-2" />
+                                <SkeletonLoading width="80%" height="2rem" />
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Skeleton Table TransactionList */}
+                    <div className="bg-gray-700 rounded-xl shadow-lg p-4">
+                        <SkeletonLoading width="30%" height="1.2rem" className="mb-4" />
+                        {[...Array(6)].map((_, i) => (
+                            <div key={i} className="flex justify-between py-2 border-b border-gray-600">
+                                {[...Array(4)].map((__, j) => (
+                                    <SkeletonLoading
+                                        key={j}
+                                        width={`${20 + j * 10}%`}
+                                        height="0.9rem"
+                                    />
+                                ))}
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            ) : (
+                <>
+                    <SummaryCards
+                        totalIncome={totalIncome}
+                        totalExpense={totalExpense}
+                        totalSavings={totalSavings}
+                        balance={balance}
                     />
-                )}
-            </div>
+                    <div className="grid grid-cols-1">
+                        <TransactionList
+                            transactions={filteredTransactions}
+                            onDelete={handleDelete}
+                            onEdit={handleEdit}
+                        />
+                    </div>
+                </>
+            )}
         </div>
     );
 }
